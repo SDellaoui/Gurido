@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private float speed = 0f;
+    private GameObject owner;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +22,19 @@ public class BulletController : MonoBehaviour
     {
         speed = _speed;
     }
+    public void SetOwner(GameObject go)
+    {
+        owner = go;
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        if (collision.collider.gameObject.tag == "Wall")
+        {
+            Debug.Log("Collision between bullet and " + collision.collider.gameObject.name);
+            Destroy(gameObject);
+
+        }
+    }
 }

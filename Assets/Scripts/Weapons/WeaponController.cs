@@ -58,5 +58,6 @@ public class WeaponController : MonoBehaviour
     {
         BulletController b = Instantiate(bullet, bulletSpawnPosition.position, Quaternion.Euler(new Vector3(0, 0, transform.rotation.eulerAngles.z))) as BulletController;
         b.SetBulletSpeed(bulletSpeed);
+        b.SetOwner(transform.parent.gameObject);
     }
 }
