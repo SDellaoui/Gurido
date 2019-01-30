@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 mousePosition;
     private bool preventCollisionMove = false;
 
+    //Health
+    private int health = 100;
+
     private Rigidbody2D playerRigidBody;
 
     // Start is called before the first frame update
@@ -72,5 +75,13 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
             preventCollisionMove = false;
+    }
+
+    public void AddHealth(int _health)
+    {
+        if (health + _health > 100)
+            health = 100;
+        else
+            health += _health;
     }
 }

@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
     private float speed = 0f;
     private GameObject owner;
+
+    private string[] destroyColliders = { "Wall", "Breakable"};
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 2);
+        //Destroy(gameObject, 2);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.position += transform.up * speed;
         Debug.DrawLine(transform.position, transform.position + transform.up);
@@ -29,12 +32,9 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        if (collision.collider.gameObject.tag == "Wall")
+        if(destroyColliders.Contains(collision.collider.gameObject.tag))
         {
-            Debug.Log("Collision between bullet and " + collision.collider.gameObject.name);
             Destroy(gameObject);
-
         }
     }
 }
