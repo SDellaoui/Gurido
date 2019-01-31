@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool preventCollisionMove = false;
 
     //Health
-    private int health = 100;
+    private int health = 70;
 
     private Rigidbody2D playerRigidBody;
 
@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
 
         UpdatePosition();
         UpdateCharacherSprite();
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            health -= 10;
+            Debug.Log("health : " + health);
+        }
     }
 
     private void UpdatePosition()
@@ -77,11 +82,20 @@ public class PlayerController : MonoBehaviour
             preventCollisionMove = false;
     }
 
-    public void AddHealth(int _health)
+    public bool AddHealth(int _health)
     {
+        if (health == 100)
+            return false;
+
         if (health + _health > 100)
             health = 100;
         else
             health += _health;
+        Debug.Log("health : " + health);
+        return true;
+    }
+    public int GetHealth()
+    {
+        return health;
     }
 }

@@ -23,12 +23,16 @@ public class ChestController : MonoBehaviour
             Debug.Log("Loots length -> " + Loots.Length);
             if (Loots.Length == 0)
                 return;
-            int res = Random.Range(0, Loots.Length);
-            Debug.Log("loot selected : " + res);
-            GameObject loot = Instantiate(Loots[res]) as GameObject;
-            loot.transform.position = transform.position;
-            
+
             Destroy(gameObject);
+            for (int i = 0; i < Random.Range(5, 10); i++)
+            {
+                int res = Random.Range(0, Loots.Length);
+                Debug.Log("loot selected : " + res);
+                GameObject loot = Instantiate(Loots[res]) as GameObject;
+                loot.transform.position = transform.position;
+            }
+            
         }
     }
 }
