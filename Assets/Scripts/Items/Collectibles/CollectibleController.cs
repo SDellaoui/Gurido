@@ -30,6 +30,7 @@ public class CollectibleController : MonoBehaviour
 
     void Start()
     {
+        /*
         _xDir = Random.Range(-1f, 1f);
         _yDir = Random.Range(-1f, 1f);
 
@@ -39,12 +40,13 @@ public class CollectibleController : MonoBehaviour
         initPosition = transform.position;
 
         direction = new Vector2(_xDir * transform.position.x, _yDir * transform.position.y).normalized;
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
         if (initMoveTime < moveTime)
         {
             transform.Translate(new Vector3(direction.x * speed * Time.deltaTime, direction.y * speed * Time.deltaTime, 0));
@@ -52,6 +54,7 @@ public class CollectibleController : MonoBehaviour
 
             float _distanceFromInit = Vector2.Distance(transform.position, initPosition);
         }
+        */
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
