@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7320930961480929053}
   - component: {fileID: 2269830009539059083}
   - component: {fileID: 9158250269520796747}
-  - component: {fileID: 675442279451237698}
+  - component: {fileID: 401936831}
   m_Layer: 0
   m_Name: Potion
   m_TagString: Collectible
@@ -125,7 +125,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.032078147, y: -0.084499955}
   m_Size: {x: 0.5616566, y: 0.6936877}
   m_Direction: 0
---- !u!114 &675442279451237698
+--- !u!114 &401936831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

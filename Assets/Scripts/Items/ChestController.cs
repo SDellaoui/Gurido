@@ -5,6 +5,8 @@ using UnityEngine;
 public class ChestController : MonoBehaviour
 {
     public GameObject[] Loots;
+
+    private int currentLootIndex;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,21 +20,23 @@ public class ChestController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Weapon")
+
+        if (collision.collider.tag == "Weapon")
         {
+
             Debug.Log("Loots length -> " + Loots.Length);
             if (Loots.Length == 0)
                 return;
 
             Destroy(gameObject);
+            //Random.InitState((int)System.DateTime.Now.Millisecond);
             for (int i = 0; i < Random.Range(5, 10); i++)
             {
-                int res = Random.Range(0, Loots.Length);
-                Debug.Log("loot selected : " + res);
-                GameObject loot = Instantiate(Loots[res]) as GameObject;
+                currentLootIndex = Random.Range(0, Loots.Length);
+                GameObject loot = Instantiate(Loots[currentLootIndex]) as GameObject;
                 loot.transform.position = transform.position;
             }
-            
+
         }
     }
 }
