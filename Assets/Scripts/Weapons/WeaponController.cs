@@ -6,7 +6,7 @@ public enum FireMode { Single, Automatic };
 
 public class WeaponController : MonoBehaviour
 {
-    public BulletController bullet;
+    public GameObject bullet;
     public float bulletSpeed;
     public float fireRate;
     public FireMode fireMode;
@@ -56,8 +56,11 @@ public class WeaponController : MonoBehaviour
 
     void Shoot()
     {
+        transform.parent.gameObject.GetComponent<PlayerNetworkSetup>().CmdShoot(bullet, bulletSpawnPosition.position,transform.rotation.eulerAngles.z,bulletSpeed);
+        /*
         BulletController b = Instantiate(bullet, bulletSpawnPosition.position, Quaternion.Euler(new Vector3(0, 0, transform.rotation.eulerAngles.z))) as BulletController;
         b.SetBulletSpeed(bulletSpeed);
         b.SetOwner(transform.parent.gameObject);
+        */
     }
 }

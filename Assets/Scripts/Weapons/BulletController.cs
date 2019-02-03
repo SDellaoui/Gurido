@@ -21,6 +21,8 @@ public class BulletController : NetworkBehaviour
     {
         transform.position += transform.up * speed;
         Debug.DrawLine(transform.position, transform.position + transform.up);
+
+
     }
     public void SetBulletSpeed(float _speed)
     {
@@ -37,7 +39,7 @@ public class BulletController : NetworkBehaviour
     {
         if(destroyColliders.Contains(collision.collider.gameObject.tag))
         {
-            Destroy(gameObject);
+            owner.GetComponent<PlayerNetworkSetup>().CmdDestroyProjectile(gameObject);
         }
     }
 }

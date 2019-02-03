@@ -59,4 +59,22 @@ public class PlayerNetworkSetup : NetworkBehaviour
     {
         NetworkServer.Destroy(item);
     }
+
+    [Command]
+    public void CmdShoot(GameObject projectile, Vector3 spawnPosition, float zRot, float speed)
+    {
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, zRot));
+        GameObject bullet = Instantiate(Resources.Load("Prefabs/Weapons/Bullets/Bullet"),spawnPosition,rotation) as GameObject;
+        bullet.GetComponent<BulletController>().SetBulletSpeed(speed);
+        bullet.GetComponent<BulletController>().SetOwner(gameObject);
+        Debug.Log(gameObject.name + " shot");
+        NetworkServer.Spawn(bullet);
+
+    }
+
+    [Command]
+    public void CmdDestroyProjectile(GameObject p)
+    {
+        NetworkServer.Destroy(p);
+    }
 }

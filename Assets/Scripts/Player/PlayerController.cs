@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
         //Ignore collision with Collectibles
         Physics2D.IgnoreLayerCollision(gameObject.layer, 8);
-        //speed /= 50;
     }
     void Update()
     { 
