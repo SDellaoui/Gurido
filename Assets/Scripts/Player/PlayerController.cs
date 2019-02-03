@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private SpriteRenderer characterRender;
     [SerializeField]
+    Camera camera;
+    [SerializeField]
     private GameObject weaponContainer = null;
     [SerializeField]
     private float speed;
@@ -14,7 +16,6 @@ public class PlayerController : MonoBehaviour
     // Direction
     private Vector2 direction;
     private Vector3 mousePosition;
-    private bool preventCollisionMove = false;
 
     //Health
     private int health = 70;
@@ -25,13 +26,16 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
+
+        //Ignore collision with Collectibles
+        Physics2D.IgnoreLayerCollision(gameObject.layer, 8);
         //speed /= 50;
     }
     void Update()
     { 
         //get mouse position and convert the 2D position of the camera into a 3d vector
         mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        mousePosition = camera.ScreenToWorldPoint(mousePosition);
 
         UpdatePosition();
         UpdateCharacherSprite();
@@ -69,17 +73,6 @@ public class PlayerController : MonoBehaviour
     private void UpdateCharacherSprite()
     {
         characterRender.flipX = (mousePosition.x - transform.position.x > 0) ? false : true;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-            preventCollisionMove = true;
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-            preventCollisionMove = false;
     }
 
     public bool AddHealth(int _health)

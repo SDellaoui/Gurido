@@ -8,6 +8,7 @@ TagManager:
   - Weapon
   - Breakable
   - Collectible
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Collectible
+  - Player
   - 
   - 
   - 

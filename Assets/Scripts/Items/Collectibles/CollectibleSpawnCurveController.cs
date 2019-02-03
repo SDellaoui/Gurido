@@ -14,6 +14,7 @@ public class CollectibleSpawnCurveController : MonoBehaviour
     private Vector2 endPoint;
     private Vector3 distancePoint;
     private Vector2 direction;
+    private Vector2 perpendicularDirection;
 
     private float directionAngle;
     private float curveFactor;
@@ -34,6 +35,7 @@ public class CollectibleSpawnCurveController : MonoBehaviour
 
         //Calculate angle direction from startpoint to end point
         directionAngle = -Vector2.SignedAngle(direction, transform.right);
+        perpendicularDirection = (Vector2)(Quaternion.Euler(0, 0, directionAngle + 90) * Vector2.right);
 
         //Reduce the curve factor if sin(angle) gets closer to 1 or -1
         curveFactor = Mathf.Clamp(1 - Mathf.Abs(Mathf.Sin(AngleToRad(directionAngle))), 0f, 0.7f);
@@ -51,7 +53,6 @@ public class CollectibleSpawnCurveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (bounceCount >= nBounce)
             return;   
         MakeParabola();
@@ -61,22 +62,8 @@ public class CollectibleSpawnCurveController : MonoBehaviour
     {
         //Set the midpoint from mid distance start and end, and to end depending on the sin(angle)
         Vector2 midPoint = Vector2.Lerp(startPoint, endPoint, Mathf.Clamp(curveFactor, 0.5f, 1f));
+        midPoint += perpendicularDirection * curveFactor;
 
-        //create a temp gameobject to get the transform
-        Transform t;
-        GameObject go = new GameObject();
-        t = go.transform;
-        Destroy(go);
-
-        //Assign midpointposition to transform. 
-        t.position = midPoint;
-
-        //rotate midpoint transform along direction angle
-        t.Rotate(Vector3.forward, directionAngle);
-
-        //update the position of mid point perpendiculary to the direction. direction depends on the curve factor sign. 
-        midPoint = t.position + t.up * curveFactor;
-        
         //Create bezier curve points.
         point = new Vector3[3];
         point[0] = startPoint;
