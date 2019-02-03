@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BulletController : MonoBehaviour
+public class BulletController : NetworkBehaviour
 {
     private float speed = 0f;
     private GameObject owner;
@@ -25,6 +26,8 @@ public class BulletController : MonoBehaviour
     {
         speed = _speed;
     }
+
+    public GameObject GetOwner() { return owner; }
     public void SetOwner(GameObject go)
     {
         owner = go;

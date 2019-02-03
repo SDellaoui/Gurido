@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CollectibleSpawnCurveController : MonoBehaviour
 {
+    //Authorize spawn on network
+    bool authorizeSpawn = false;
     // object 
     private float speed = 2f;
     private float count = 0f;
@@ -26,10 +28,26 @@ public class CollectibleSpawnCurveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (bounceCount >= nBounce || !authorizeSpawn)
+            return;   
+        MakeParabola();
+    }
+
+    public void InitCurve(float _x, float _y)
+    {
+        float x = Mathf.Clamp(_x, -1f, 1f);
+        float y = Mathf.Clamp(_y, -1f, 1f);
+
         //Init Curve coordinates
         startPoint = transform.position;
-        endPoint = transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-0.8f, 0.7f)).normalized;
-        endPoint += new Vector2(Random.Range(-0.5f, 0.5f),Random.Range(-0.5f,0f));
+        endPoint = transform.position + new Vector3(x,y).normalized;
+        endPoint += new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0f));
 
         direction = endPoint - startPoint;
 
@@ -47,18 +65,13 @@ public class CollectibleSpawnCurveController : MonoBehaviour
         //randomize the number of bounces
         nBounce = Random.Range(2, 3);
 
-        InitCurve();
+        authorizeSpawn = true;
+
+        CreateCurve();
+        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (bounceCount >= nBounce)
-            return;   
-        MakeParabola();
-    }
-
-    void InitCurve()
+    void CreateCurve()
     {
         //Set the midpoint from mid distance start and end, and to end depending on the sin(angle)
         Vector2 midPoint = Vector2.Lerp(startPoint, endPoint, Mathf.Clamp(curveFactor, 0.5f, 1f));
@@ -87,7 +100,7 @@ public class CollectibleSpawnCurveController : MonoBehaviour
         speed += 1f;
 
         //Recalculate curve
-        InitCurve();
+        CreateCurve();
     }
 
     void MakeParabola()

@@ -39,11 +39,7 @@ public class PlayerController : MonoBehaviour
 
         UpdatePosition();
         UpdateCharacherSprite();
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            health -= 10;
-            Debug.Log("health : " + health);
-        }
+        
     }
 
     private void UpdatePosition()
@@ -59,12 +55,6 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.MovePosition(new Vector2(transform.position.x + _xPos * speed * Time.deltaTime,
             transform.position.y + _yPos * speed * Time.deltaTime));
 
-        /*
-        //get mouse position and convert the 2D position of the camera into a 3d vector
-        Vector3 _mousePosition = Input.mousePosition;
-        _mousePosition = Camera.main.ScreenToWorldPoint(_mousePosition);
-        */
-
         //get the direction the gameobject should look at and update the up coordinates to follow the mouse cursor
         direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
         weaponContainer.transform.up = direction;
@@ -73,6 +63,12 @@ public class PlayerController : MonoBehaviour
     private void UpdateCharacherSprite()
     {
         characterRender.flipX = (mousePosition.x - transform.position.x > 0) ? false : true;
+    }
+    
+    public void AddDamage(int dmg)
+    {
+        health -= dmg;
+        Debug.Log(gameObject.name + " has taken " + dmg + " damages");
     }
 
     public bool AddHealth(int _health)
@@ -84,11 +80,10 @@ public class PlayerController : MonoBehaviour
             health = 100;
         else
             health += _health;
-        Debug.Log("health : " + health);
         return true;
     }
     public int GetHealth()
     {
         return health;
-    }
+    } 
 }

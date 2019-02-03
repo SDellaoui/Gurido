@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public enum CollectibleType
 {
@@ -8,7 +9,7 @@ public enum CollectibleType
     Health
 }
 
-public class CollectibleController : MonoBehaviour
+public class CollectibleController : NetworkBehaviour
 {
     // Start is called before the first frame update
     public CollectibleType collectibleType;
@@ -27,13 +28,23 @@ public class CollectibleController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        GameObject collisionGO = collision.gameObject;
+        CmdSendItemToPlayer(collisionGO);
+    }
+
+    [Command]
+    void CmdSendItemToPlayer(GameObject collisionGO)
+    {
+        if (collisionGO.tag == "Player")
         {
             switch (collectibleType)
             {
                 case CollectibleType.Health:
-                    if (collision.gameObject.GetComponent<PlayerController>().AddHealth(collectibleValue))
-                        Destroy(gameObject);
+                    if (collisionGO.GetComponent<PlayerController>().GetHealth() < 100)
+                    {
+                        collisionGO.GetComponent<PlayerNetworkSetup>().CmdAddHealth(collectibleValue);
+                        NetworkServer.Destroy(gameObject);
+                    }
                     break;
                 default:
                     break;
