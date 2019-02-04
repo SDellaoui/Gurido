@@ -36,7 +36,15 @@ public class PlayerNetworkSetup : NetworkBehaviour
                 sceneCamera.transform.gameObject.SetActive(false);
         }
     }
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.tag == "Projectile")
+        {
+            GameObject p = collision.collider.gameObject;
+            if(p.GetComponent<ProjectileController>().GetOwner() != gameObject)
+                CmdDestroyProjectile(collision.collider.gameObject);
+        }
+    }
     private void OnDisable()
     {
         sceneCamera.transform.gameObject.SetActive(true);
@@ -64,9 +72,12 @@ public class PlayerNetworkSetup : NetworkBehaviour
     public void CmdShoot(GameObject projectile, Vector3 spawnPosition, float zRot, float speed)
     {
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, zRot));
-        GameObject bullet = Instantiate(Resources.Load("Prefabs/Weapons/Bullets/Bullet"),spawnPosition,rotation) as GameObject;
-        bullet.GetComponent<BulletController>().SetBulletSpeed(speed);
-        bullet.GetComponent<BulletController>().SetOwner(gameObject);
+        GameObject bulletPrefab = gameObject.GetComponent<PlayerController>().weaponContainer.GetComponent<WeaponController>().bullet;
+        //GameObject bullet = (GameObject)Instantiate(Resources.Load("Prefabs/Weapons/Bullets/Bullet"),spawnPosition,rotation);
+
+        GameObject bullet = (GameObject)Instantiate(bulletPrefab, spawnPosition, rotation);
+        bullet.GetComponent<ProjectileController>().SetBulletSpeed(speed);
+        bullet.GetComponent<ProjectileController>().SetOwner(gameObject);
         Debug.Log(gameObject.name + " shot");
         NetworkServer.Spawn(bullet);
 

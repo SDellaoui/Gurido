@@ -1,39 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class CollectibleSpawnCurveController : MonoBehaviour
+
+public struct CollectibleCurve
+{
+    public Vector3 curvePoint;
+    public CollectibleCurve(Vector3 v)
+    {
+        curvePoint = v;
+    }
+}
+public class SyncListCollectibleCurve : SyncListStruct<CollectibleCurve> { }
+
+public class CollectibleSpawnCurveController : NetworkBehaviour
 {
     //Authorize spawn on network
+    [SyncVar]
     bool authorizeSpawn = false;
     // object 
     private float speed = 2f;
+    [SyncVar]
     private float count = 0f;
 
     //Bezier curve
-    private Vector3[] point;
+    SyncListCollectibleCurve curvePointsStruct = new SyncListCollectibleCurve();
+    //private Vector3[] point;
+    [SyncVar]
     private Vector2 startPoint;
+    [SyncVar]
     private Vector2 endPoint;
+    [SyncVar]
     private Vector3 distancePoint;
+    [SyncVar]
     private Vector2 direction;
+    [SyncVar]
     private Vector2 perpendicularDirection;
 
+    [SyncVar]
     private float directionAngle;
+    [SyncVar]
     private float curveFactor;
 
     //Bounce
+    [SyncVar]
     private int bounceCount = 0;
+    [SyncVar]
     private int nBounce = 3;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("Start Curve"+bounceCount+" "+nBounce);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isClient)
+            return;
+
         if (bounceCount >= nBounce || !authorizeSpawn)
             return;   
         MakeParabola();
@@ -67,6 +92,7 @@ public class CollectibleSpawnCurveController : MonoBehaviour
 
         authorizeSpawn = true;
 
+        Debug.Log("Init Curve");
         CreateCurve();
         
     }
@@ -78,11 +104,15 @@ public class CollectibleSpawnCurveController : MonoBehaviour
         midPoint += perpendicularDirection * curveFactor;
 
         //Create bezier curve points.
+        curvePointsStruct.Add(new CollectibleCurve(startPoint));
+        curvePointsStruct.Add(new CollectibleCurve(midPoint));
+        curvePointsStruct.Add(new CollectibleCurve(endPoint));
+        /*
         point = new Vector3[3];
         point[0] = startPoint;
         point[1] = midPoint;
         point[2] = endPoint;
-
+        */
         count = 0f;
     }
 
@@ -109,8 +139,13 @@ public class CollectibleSpawnCurveController : MonoBehaviour
         {
             count += 1.0f *speed *  Time.deltaTime;
 
+            /*
             Vector3 m1 = Vector3.Lerp(point[0], point[1], count);
             Vector3 m2 = Vector3.Lerp(point[1], point[2], count);
+            */
+
+            Vector3 m1 = Vector3.Lerp(curvePointsStruct[0].curvePoint, curvePointsStruct[1].curvePoint, count);
+            Vector3 m2 = Vector3.Lerp(curvePointsStruct[1].curvePoint, curvePointsStruct[2].curvePoint, count);
             transform.position = Vector3.Lerp(m1, m2, count);
         }
         //if the object reaches the end point, call a bounce.

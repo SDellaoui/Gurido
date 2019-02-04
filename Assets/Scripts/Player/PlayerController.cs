@@ -8,8 +8,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer characterRender;
     [SerializeField]
     Camera camera;
-    [SerializeField]
-    private GameObject weaponContainer = null;
+    public GameObject weaponContainer;
     [SerializeField]
     private float speed;
 
@@ -19,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     //Health
     private int health = 70;
-
     private Rigidbody2D playerRigidBody;
 
     // Start is called before the first frame update
@@ -38,7 +36,6 @@ public class PlayerController : MonoBehaviour
 
         UpdatePosition();
         UpdateCharacherSprite();
-        
     }
 
     private void UpdatePosition()
@@ -63,13 +60,15 @@ public class PlayerController : MonoBehaviour
     {
         characterRender.flipX = (mousePosition.x - transform.position.x > 0) ? false : true;
     }
-    
+
     public void AddDamage(int dmg)
     {
         health -= dmg;
         Debug.Log(gameObject.name + " has taken " + dmg + " damages");
     }
 
+
+    // Health
     public bool AddHealth(int _health)
     {
         if (health == 100)

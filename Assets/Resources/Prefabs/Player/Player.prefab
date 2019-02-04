@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 22, guid: 17139755a112f4e4bac5bebdb398867a, type: 3}
-  bulletSpeed: 0.25
-  fireRate: 0.1
+  bulletSpeed: 8
+  fireRate: 0.3
   fireMode: 0
   bulletSpawnPosition: {fileID: 25}
 --- !u!1 &18

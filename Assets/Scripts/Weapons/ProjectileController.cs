@@ -4,9 +4,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BulletController : NetworkBehaviour
+public class ProjectileController : NetworkBehaviour
 {
-    private float speed = 0f;
+    [SyncVar]
+    private float speed = 6f;
+
+    [SyncVar]
     private GameObject owner;
 
     private string[] destroyColliders = { "Wall", "Breakable"};
@@ -19,7 +22,11 @@ public class BulletController : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position += transform.up * speed;
+        if (!isClient)
+            return;
+
+        GetComponent<Rigidbody2D>().velocity = transform.up * speed;
+        //transform.position += transform.up * speed;
         Debug.DrawLine(transform.position, transform.position + transform.up);
 
 

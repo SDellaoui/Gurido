@@ -13,12 +13,11 @@ GameObject:
   - component: {fileID: 35}
   - component: {fileID: 55}
   - component: {fileID: 36}
-  - component: {fileID: 2088631539249300453}
   - component: {fileID: 5637411117267499321}
   - component: {fileID: 1351919032738829831}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Weapon
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,9 +92,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -134,18 +133,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &2088631539249300453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e80b22e2e1e71fe48b1091721134c410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5637411117267499321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +165,7 @@ MonoBehaviour:
     i14: 0
     i15: 0
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &1351919032738829831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,12 +179,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 2
-  m_SendInterval: 0.1
+  m_SendInterval: 0
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
+  m_VelocityThreshold: 0
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
